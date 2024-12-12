@@ -1,5 +1,8 @@
+import pandas as pd
+import csv
+
 class Balls_Data:
-    def __init__(self) -> None:
+    def __init__(self, username:str="Guest") -> None:
         # only 5 balls in order that can be shoot from balls cannon
         # last balls will have a custom image
         self.property = [
@@ -78,3 +81,19 @@ class Balls_Data:
         ]
 
         self.Balls_db = []
+        self.username = username
+        self._score = 0
+
+    def __get_data(self):
+        with open("datafile.csv", mode="r") as file:
+            csv_reader = csv.DictReader(file)
+
+            for i in csv_reader:
+                if i['Name'].strip() == self.username:
+                    return i['Score']
+            return 0
+
+    @property
+    def highscore(self):
+        self._past_highscore = self.__get_data()
+        return self._past_highscore
