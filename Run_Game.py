@@ -7,6 +7,7 @@ while True:
     else:
         ans = input("Is this your username '{}' ? [Y/N]: ".format(username)).lower()
         if ans == 'y' or ans == 'yes' or ans == '1':
+            print("Starting game....")
             break
 
 setting_app = SetUp(username)
