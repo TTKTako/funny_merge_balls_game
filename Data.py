@@ -10,7 +10,7 @@ class Balls_Data:
                 "Radius": 5,
                 "Color": "#fd9191",
                 "Image": "/image/",
-                "Reward": 300,
+                "Reward": 500,
             },
             { #2
                 "Radius": 8,
@@ -83,15 +83,40 @@ class Balls_Data:
         self.Balls_db = []
         self.username = username
         self._score = 0
+        self.__file = "datafile.csv"
 
     def __get_data(self):
-        with open("datafile.csv", mode="r") as file:
+        with open(self.__file, mode="r") as file:
             csv_reader = csv.DictReader(file)
 
             for i in csv_reader:
                 if i['Name'].strip() == self.username:
                     return i['Score']
             return 0
+
+    def save_data(self):
+        check = bool(self.__get_data())
+        if check:
+            if self._score > self.highscore:
+                rows = []
+                with open(self.__file, mode="r", newline="") as file:
+                    reader = csv.reader(file)
+                    headers = next(reader)
+                    rows.append(headers)
+
+                    for row in reader:
+                        if row[0] == self.username:
+                            row[1] = str(self._score)
+                        rows.append(row)
+
+                with open(self.__file, mode="w", newline="") as file:
+                    writer = csv.writer(file)
+                    writer.writerows(rows)
+        else:
+            new_row = [self.username, self._score]
+            with open(self.__file, mode="a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(new_row)
 
     @property
     def highscore(self):
