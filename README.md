@@ -41,6 +41,7 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 
 **Image Source**:
 - https://dk.pinterest.com/
+- https://www.flaticon.com/
 
 **Sound effect Source**:
 - https://mixkit.co/
