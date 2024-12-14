@@ -1,5 +1,6 @@
 from data_database import BallsDB
 from physic import PhysicsCalculate
+from dropper import dropper
 from playsound import playsound
 import turtle
 import random
@@ -27,9 +28,20 @@ class SetUp(BallsDB):
 
         self._game_over = False
         self.__start_val = False
+        self.dropper = dropper(self.canvas_height, self.canvas_width)
+        self.dropper.hide()
 
     def __border(self):
         self.wall = turtle.Turtle()
+
+        self.wall.penup()
+        self.wall.setheading(0)
+        self.wall.pensize(2)
+        self.wall.color((255, 0, 0))
+        self.wall.goto((-self.canvas_width/2) + 50, (self.canvas_height/2) - 220)
+        self.wall.pendown()
+        self.wall.forward(self.canvas_width - 100)
+
         self.wall.penup()
         self.wall.goto((-self.canvas_width/2) + 50, (self.canvas_height/2) - 170)
         self.wall.pensize(10)
@@ -41,6 +53,10 @@ class SetUp(BallsDB):
         self.wall.forward(self.canvas_width - 100)
         self.wall.left(90)
         self.wall.forward(self.canvas_height*0.65)
+        self.wall.penup()
+
+        self.wall.hideturtle()
+        self.dropper.show()
 
     def __ui_ingame(self):
         pass

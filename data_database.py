@@ -94,7 +94,7 @@ class BallsDB:
         self._past_highscore = self.__get_data()
 
     def __get_data(self):
-        with open(self.__file, mode="r") as file:
+        with open(self.__file, mode="r", encoding='utf-8') as file:
             csv_reader = csv.DictReader(file)
 
             for i in csv_reader:
@@ -110,7 +110,7 @@ class BallsDB:
         if check:
             if self._score > self.highscore:
                 rows = []
-                with open(self.__file, mode="r", newline="") as file:
+                with open(self.__file, mode="r", newline="", encoding='utf-8') as file:
                     reader = csv.reader(file)
                     headers = next(reader)
                     rows.append(headers)
@@ -120,12 +120,12 @@ class BallsDB:
                             row[1] = str(self._score)
                         rows.append(row)
 
-                with open(self.__file, mode="w", newline="") as file:
+                with open(self.__file, mode="w", newline="", encoding='utf-8') as file:
                     writer = csv.writer(file)
                     writer.writerows(rows)
         else:
             new_row = [self.username, self._score]
-            with open(self.__file, mode="a", newline="") as file:
+            with open(self.__file, mode="a", newline="", encoding='utf-8') as file:
                 writer = csv.writer(file)
                 writer.writerow(new_row)
 
