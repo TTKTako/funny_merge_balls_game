@@ -1,5 +1,5 @@
 import turtle
 
-class physics_calculate:
+class PhysicsCalculate:
     def __init__(self):
         pass

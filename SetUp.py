@@ -1,8 +1,8 @@
 from data_database import BallsDB
-from physic import physics_calculate
+from physic import PhysicsCalculate
 from playsound import playsound
 import turtle
-import time
+import random
 
 class SetUp(BallsDB):
     def __init__(self, username:str="Guest") -> None:

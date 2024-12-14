@@ -10,6 +10,7 @@
 - pandas
 - csv
 - playsound
+- random
 Library install method.
 ```bash
 pip install PythonTurtle pandas playsound
