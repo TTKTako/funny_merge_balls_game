@@ -36,20 +36,6 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 - Have fun with a game. :>
 
 
----
-
-
-**Image Source**:
-- https://dk.pinterest.com/
-- https://www.flaticon.com/
-
-**Sound effect Source**:
-- https://mixkit.co/
-
-
----
-
-
 ## Feature methods
 
 **Save data**:
@@ -63,3 +49,14 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 
 **playsound**:
 - there's a bug report after finish playing sounds, this problems happen from the library which I cannot fix it from now.
+
+
+---
+
+
+**Image Source**:
+- https://dk.pinterest.com/
+- https://www.flaticon.com/
+
+**Sound effect Source**:
+- https://mixkit.co/
