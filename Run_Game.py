@@ -1,6 +1,6 @@
 """Run this code to play the game."""
 
-from SetUp import SetUp
+from set_up import SetUp
 
 while True:
     username = input("Enter your username: ")
