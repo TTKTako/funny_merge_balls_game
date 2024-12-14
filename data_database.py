@@ -1,7 +1,14 @@
-import pandas as pd
-import csv
+"""This code is used for manage database don't modifired."""
 
-class Balls_Data:
+import csv
+import pandas as pd
+
+class BallsDB:
+    """
+    This class will access the file call 'datafile.csv'
+    Do not change the file name or header of the file!!
+    """
+
     def __init__(self, username:str="Guest") -> None:
         # only 5 balls in order that can be shoot from balls cannon
         # every balls will be a emoji
@@ -80,10 +87,11 @@ class Balls_Data:
             },
         ]
 
-        self.Balls_db = []
+        self.ball_db = []
         self.username = username
         self._score = 0
         self.__file = "datafile.csv"
+        self._past_highscore = self.__get_data()
 
     def __get_data(self):
         with open(self.__file, mode="r") as file:
@@ -95,6 +103,9 @@ class Balls_Data:
             return 0
 
     def save_data(self):
+        """
+        this function will save the player data from the player username
+        """
         check = bool(self.__get_data())
         if check:
             if self._score > self.highscore:
@@ -120,5 +131,8 @@ class Balls_Data:
 
     @property
     def highscore(self):
+        """
+        this getter will automatically pull data from the csv file.
+        """
         self._past_highscore = self.__get_data()
         return self._past_highscore

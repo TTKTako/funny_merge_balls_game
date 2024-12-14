@@ -1,10 +1,10 @@
-from Data import Balls_Data
+from data_database import BallsDB
 from physic import physics_calculate
 from playsound import playsound
 import turtle
 import time
 
-class SetUp(Balls_Data):
+class SetUp(BallsDB):
     def __init__(self, username:str="Guest") -> None:
         super().__init__(username)
         turtle.speed(0)
@@ -17,10 +17,13 @@ class SetUp(Balls_Data):
 
         self.screen = turtle.Screen()
 
+        self.screen.addshape("image/logo.gif")
+
         self.screen.title("Funny Merge Balls")
         rootwindow = self.screen.getcanvas().winfo_toplevel()
         rootwindow.call('wm', 'attributes', '.', '-topmost', '1')
         rootwindow.call('wm', 'attributes', '.', '-topmost', '0')
+        rootwindow.resizable(False, False)
 
         self._game_over = False
         self.__start_val = False
@@ -38,7 +41,6 @@ class SetUp(Balls_Data):
         self.wall.forward(self.canvas_width - 100)
         self.wall.left(90)
         self.wall.forward(self.canvas_height*0.65)
-        turtle.update()
 
     def __ui_ingame(self):
         pass
@@ -47,21 +49,26 @@ class SetUp(Balls_Data):
         print("Start!!!")
 
         if not self._game_over:
+            self.logo = turtle.Turtle()
+            self.logo.shape("image/logo.gif")
+            self.logo.penup()
+            self.logo.goto(0,20)
+            self.logo.showturtle()
+
             self.title = turtle.Turtle()
             self.title.hideturtle()
             self.title.penup()
-            self.title.goto(0, (self.canvas_height/2) - 150)
+            self.title.goto(0, (self.canvas_height/2) - 120)
             self.title.color("#3b58fb")
             self.title.write("Funny Merge Balls", align="center", font=("Comic Sans MS", 35, "bold"))
-            self.title.goto(0, (-self.canvas_height/2) + 150)
+            self.title.goto(0, (-self.canvas_height/2) + 120)
             self.title.color("#fbaa3b")
             self.title.write("Press 'space' to start!", align="center", font=("Comic Sans MS", 14, "bold"))
 
         self._score = 0
         self._game_over = False
         self.__start_val = False
-
-        #TODO: draw menu
+        turtle.update()
 
     def __game_over(self):
         self._game_over = True
@@ -77,10 +84,12 @@ class SetUp(Balls_Data):
 
             turtle.clear()
             self.title.clear()
+            self.logo.hideturtle()
 
             playsound('start.wav', block=False)
             self.__border()
             self.__ui_ingame()
+            turtle.update()
         else:
             print("drop")
 

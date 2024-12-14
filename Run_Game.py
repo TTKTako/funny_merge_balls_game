@@ -8,7 +8,7 @@ while True:
         print("Username cannot be empty string.")
     else:
         ans = input(f"Is this your username '{username}' ? [Y/N]: ").lower().strip()
-        fold = ['y', 'ye', '1', 'yes', 'yep']
+        fold = ['y', 'ye', '1', 'yes', 'yep', 'right']
         if ans in fold:
             print("Starting game....")
             break
