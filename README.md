@@ -1,6 +1,6 @@
 # Welcome to Funny Merge Balls
 > **Genre**: Puzzle\
-> **description**: Drop those colorful balls and watch them merge to be the bigger one, but beware of overfilling the ball!
+> **description**: Drop those colorful balls - or EMOJI?? - and watch them merge to be the bigger one, but beware of overfilling the ball!
 
 
 ## How to install?
@@ -45,3 +45,21 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 
 **Sound effect Source**:
 - https://mixkit.co/
+
+
+---
+
+
+## Feature methods
+
+**Save data**:
+- use **csv** to read and write file.
+
+**Display scoreboard**:
+- use **Pandas** to get top 10 and display in order.
+
+
+## Bugs
+
+**playsound**:
+- there's a bug report after finish playing sounds, this problems happen from the library which I cannot fix it from now.
