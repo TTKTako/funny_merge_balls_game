@@ -4,7 +4,7 @@ import csv
 class Balls_Data:
     def __init__(self, username:str="Guest") -> None:
         # only 5 balls in order that can be shoot from balls cannon
-        # last balls will have a custom image
+        # every balls will be a emoji
         self.property = [
             { #1
                 "Radius": 5,

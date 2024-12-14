@@ -1,3 +1,5 @@
+"""Run this code to play the game."""
+
 from SetUp import SetUp
 
 while True:
@@ -5,9 +7,11 @@ while True:
     if len(username) == 0:
         print("Username cannot be empty string.")
     else:
-        ans = input("Is this your username '{}' ? [Y/N]: ".format(username)).lower()
-        if ans == 'y' or ans == 'yes' or ans == '1':
+        ans = input(f"Is this your username '{username}' ? [Y/N]: ").lower().strip()
+        fold = ['y', 'ye', '1', 'yes', 'yep']
+        if ans in fold:
             print("Starting game....")
             break
 
 setting_app = SetUp(username)
+setting_app.run()
