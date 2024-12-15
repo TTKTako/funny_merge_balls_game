@@ -1,7 +1,7 @@
 from data_database import BallsDB
 from physic import PhysicsCalculate
 from dropper import dropper
-from playsound import playsound
+from sound_master import sound
 import turtle
 import random
 
@@ -19,6 +19,7 @@ class SetUp(BallsDB):
         self.screen = turtle.Screen()
 
         self.screen.addshape("image/logo.gif")
+        self.screen.addshape("image/exit.gif")
 
         self.screen.title("Funny Merge Balls")
         rootwindow = self.screen.getcanvas().winfo_toplevel()
@@ -28,8 +29,22 @@ class SetUp(BallsDB):
 
         self._game_over = False
         self.__start_val = False
+
         self.dropper = dropper(self.canvas_height, self.canvas_width)
+        self.wall = turtle.Turtle()
+        self.title = turtle.Turtle()
+        self.logo = turtle.Turtle()
+        self.exit_button = turtle.Turtle()
+        self.score_text = turtle.Turtle()
+        self.Highscore_text = turtle.Turtle()
+
         self.dropper.hide()
+        self.wall.hideturtle()
+        self.title.hideturtle()
+        self.logo.hideturtle()
+        self.exit_button.hideturtle()
+        self.score_text.hideturtle()
+        self.Highscore_text.hideturtle()
 
     def __border(self):
         self.wall = turtle.Turtle()
@@ -59,11 +74,31 @@ class SetUp(BallsDB):
         self.dropper.show()
 
     def __ui_ingame(self):
-        pass
+        self.exit_button = turtle.Turtle()
+        self.exit_button.shape("image/exit.gif")
+        self.exit_button.showturtle()
+        self.exit_button.penup()
+        self.exit_button.goto((self.canvas_width/2) - 50, (-self.canvas_height/2) + 40)
+
+        self.score_text = turtle.Turtle()
+        self.score_text.penup()
+        self.score_text.hideturtle()
+        self.score_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 40)
+        self.score_text.color("#863f1f")
+        self.score_text.write(f"Score: {self._score}", align="left", font=("Comic Sans MS", 20, "bold"))
+
+        self.Highscore_text = turtle.Turtle()
+        self.Highscore_text.penup()
+        self.Highscore_text.hideturtle()
+        self.Highscore_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 60)
+        self.Highscore_text.color("#72381e")
+        self.Highscore_text.write(f"Highscore: {self.highscore}", align="left", font=("Comic Sans MS", 10, "bold"))
+
+
+
+        self.exit_button.onclick(self.run)
 
     def __start(self):
-        print("Start!!!")
-
         if not self._game_over:
             self.logo = turtle.Turtle()
             self.logo.shape("image/logo.gif")
@@ -90,7 +125,7 @@ class SetUp(BallsDB):
         self._game_over = True
         self.__start_val = False
         self.save_data()
-        playsound('gameover.wav', block=False)
+        sound().gameover.play()
         #TODO: clear scene and appear play again.
 
     def __space(self):
@@ -102,19 +137,26 @@ class SetUp(BallsDB):
             self.title.clear()
             self.logo.hideturtle()
 
-            playsound('start.wav', block=False)
+            sound().start.play()
             self.__border()
             self.__ui_ingame()
             turtle.update()
         else:
+            sound().drop.play()
             print("drop")
 
-    def run(self):
+    def run(self, _=None, __=None, ___=None):
         #TODO: Runable code.
         turtle.clear()
+        self.title.clear()
+        self.logo.hideturtle()
+        self.exit_button.hideturtle()
+        self.wall.clear()
+        self.dropper.hide()
+        self.score_text.clear()
+        self.Highscore_text.clear()
         self.__start()
         turtle.listen()
         turtle.onkey(self.__space, 'space')
 
         turtle.done()
-        print("Close")

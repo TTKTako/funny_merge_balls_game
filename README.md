@@ -9,11 +9,11 @@
 - turtle
 - pandas
 - csv
-- playsound
+- pygame
 - random
 Library install method.
 ```bash
-pip install PythonTurtle pandas playsound
+pip install PythonTurtle pandas pygame
 ```
 
 **Install Game**:
@@ -47,9 +47,11 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 
 
 ## Bugs
+-
 
-**playsound**:
-- there's a bug report after finish playing sounds, this problems happen from the library which I cannot fix it from now.
+
+## Coding detail & Prefer score
+-
 
 
 ---
