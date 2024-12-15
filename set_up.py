@@ -1,6 +1,6 @@
 from data_database import BallsDB
 from physic import PhysicsCalculate
-from dropper import dropper
+from dropper import Dropper
 from sound_master import sound
 import turtle
 import random
@@ -30,7 +30,7 @@ class SetUp(BallsDB):
         self._game_over = False
         self.__start_val = False
 
-        self.dropper = dropper(self.canvas_height, self.canvas_width)
+        self.dropper = Dropper(self.canvas_height, self.canvas_width)
         self.wall = turtle.Turtle()
         self.title = turtle.Turtle()
         self.logo = turtle.Turtle()
@@ -90,13 +90,14 @@ class SetUp(BallsDB):
         self.Highscore_text = turtle.Turtle()
         self.Highscore_text.penup()
         self.Highscore_text.hideturtle()
-        self.Highscore_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 60)
+        self.Highscore_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 70)
         self.Highscore_text.color("#72381e")
-        self.Highscore_text.write(f"Highscore: {self.highscore}", align="left", font=("Comic Sans MS", 10, "bold"))
-
-
+        self.Highscore_text.write(f"Highscore: {self.highscore}", align="left", font=("Comic Sans MS", 15, "bold"))
+        self.Highscore_text.goto((-self.canvas_width/2) + 20, -(self.canvas_height/2) + 20)
+        self.Highscore_text.write(f"Player: {self.username}", align="left", font=("Comic Sans MS", 15, "bold"))
 
         self.exit_button.onclick(self.run)
+        self.dropper.left_right()
 
     def __start(self):
         if not self._game_over:
@@ -143,7 +144,7 @@ class SetUp(BallsDB):
             turtle.update()
         else:
             sound().drop.play()
-            print("drop")
+            print(f"drop, {self.dropper.posx}")
 
     def run(self, _=None, __=None, ___=None):
         #TODO: Runable code.
