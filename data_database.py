@@ -108,7 +108,7 @@ class BallsDB:
         """
         check = bool(self.__get_data())
         if check:
-            if self._score > self.highscore:
+            if self._score > int(self.highscore):
                 rows = []
                 with open(self.__file, mode="r", newline="", encoding='utf-8') as file:
                     reader = csv.reader(file)
@@ -128,6 +128,18 @@ class BallsDB:
             with open(self.__file, mode="a", newline="", encoding='utf-8') as file:
                 writer = csv.writer(file)
                 writer.writerow(new_row)
+
+    def get_top(self, val:int = 5):
+        """
+        get top n of the datafile.csv
+        """
+        file = pd.read_csv(self.__file)
+        top = file.nlargest(val, 'Score')
+        top_list = top[['Name', 'Score']].values.tolist()
+        if len(top_list) - val != 0:
+            for i in range(val - len(top_list)):
+                top_list.append(["------", "---"])
+        return top_list
 
     @property
     def highscore(self):

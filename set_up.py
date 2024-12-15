@@ -1,7 +1,7 @@
 from data_database import BallsDB
 from physic import PhysicsCalculate
 from dropper import Dropper
-from sound_master import sound
+from sound_master import Sound
 import turtle
 import random
 
@@ -37,6 +37,11 @@ class SetUp(BallsDB):
         self.exit_button = turtle.Turtle()
         self.score_text = turtle.Turtle()
         self.Highscore_text = turtle.Turtle()
+        self.guild = turtle.Turtle()
+        self.over_text = turtle.Turtle()
+        self.over_text_left = turtle.Turtle()
+        self.over_text_right = turtle.Turtle()
+        self.over_text_restart = turtle.Turtle()
 
         self.dropper.hide()
         self.wall.hideturtle()
@@ -45,10 +50,13 @@ class SetUp(BallsDB):
         self.exit_button.hideturtle()
         self.score_text.hideturtle()
         self.Highscore_text.hideturtle()
+        self.guild.hideturtle()
+        self.over_text.hideturtle()
+        self.over_text_left.hideturtle()
+        self.over_text_right.hideturtle()
+        self.over_text_restart.hideturtle()
 
     def __border(self):
-        self.wall = turtle.Turtle()
-
         self.wall.penup()
         self.wall.setheading(0)
         self.wall.pensize(2)
@@ -74,20 +82,17 @@ class SetUp(BallsDB):
         self.dropper.show()
 
     def __ui_ingame(self):
-        self.exit_button = turtle.Turtle()
         self.exit_button.shape("image/exit.gif")
         self.exit_button.showturtle()
         self.exit_button.penup()
         self.exit_button.goto((self.canvas_width/2) - 50, (-self.canvas_height/2) + 40)
 
-        self.score_text = turtle.Turtle()
         self.score_text.penup()
         self.score_text.hideturtle()
         self.score_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 40)
         self.score_text.color("#863f1f")
         self.score_text.write(f"Score: {self._score}", align="left", font=("Comic Sans MS", 20, "bold"))
 
-        self.Highscore_text = turtle.Turtle()
         self.Highscore_text.penup()
         self.Highscore_text.hideturtle()
         self.Highscore_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 70)
@@ -96,12 +101,16 @@ class SetUp(BallsDB):
         self.Highscore_text.goto((-self.canvas_width/2) + 20, -(self.canvas_height/2) + 20)
         self.Highscore_text.write(f"Player: {self.username}", align="left", font=("Comic Sans MS", 15, "bold"))
 
+        self.guild.penup()
+        self.guild.goto(0, -120)
+        self.guild.color("#000000")
+        self.guild.write("Press 'space' to drop ball!", align="center", font=("Comic Sans MS", 14, "bold"))
+
         self.exit_button.onclick(self.run)
         self.dropper.left_right()
 
     def __start(self):
         if not self._game_over:
-            self.logo = turtle.Turtle()
             self.logo.shape("image/logo.gif")
             self.logo.penup()
             self.logo.goto(0,20)
@@ -123,31 +132,57 @@ class SetUp(BallsDB):
         turtle.update()
 
     def __game_over(self):
+        self.__clear()
+        turtle.update()
+
         self._game_over = True
         self.__start_val = False
+
         self.save_data()
-        sound().gameover.play()
-        #TODO: clear scene and appear play again.
+        order_list = self.get_top(5)
+        Sound().gameover.play()
+        self.over_text.penup()
+        self.over_text.goto(0,(self.canvas_height*0.325) - 30)
+        self.over_text.color("#ce0000")
+        self.over_text.write("GAMEOVER!!", align="center", font=("Comic Sans MS", 52, "bold"))
+        self.over_text_left.penup()
+        self.over_text_right.penup()
+        self.over_text_restart.penup()
+        self.over_text_restart.goto(0, (-self.canvas_height/2) + 150)
+        self.over_text_restart.color("#fbaa3b")
+        self.over_text_restart.write("Press 'space' to restart!", align="center", font=("Comic Sans MS", 14, "bold"))
+        self.over_text_left.goto(-(self.canvas_width/2) + 90, self.over_text.ycor() - 50)
+        self.over_text_right.goto((self.canvas_width/2) - 90, self.over_text.ycor() - 50)
+        self.over_text_right.color("#000000")
+        for data in order_list:
+            data_name = data[0]
+            data_score = data[1]
+            if data[0] == self.username:
+                self.over_text_left.color("#ce7100")
+            else:
+                self.over_text_left.color("#000000")
+            self.over_text_left.goto(self.over_text_left.xcor(), self.over_text_left.ycor() - 25)
+            self.over_text_right.goto(self.over_text_right.xcor(), self.over_text_right.ycor() - 25)
+            self.over_text_left.write(f"({order_list.index(data) + 1}) {data_name}", align="left", font=("Comic Sans MS", 15, "bold"))
+            self.over_text_right.write(f"{data_score}", align="right", font=("Comic Sans MS", 15, "bold"))
 
     def __space(self):
         if not self.__start_val:
             self.__start_val = True
             self._game_over = False
 
-            turtle.clear()
-            self.title.clear()
-            self.logo.hideturtle()
+            self.__clear()
 
-            sound().start.play()
+            Sound().start.play()
             self.__border()
             self.__ui_ingame()
             turtle.update()
         else:
-            sound().drop.play()
+            Sound().drop.play()
+            self.guild.clear()
             print(f"drop, {self.dropper.posx}")
 
-    def run(self, _=None, __=None, ___=None):
-        #TODO: Runable code.
+    def __clear(self):
         turtle.clear()
         self.title.clear()
         self.logo.hideturtle()
@@ -156,8 +191,19 @@ class SetUp(BallsDB):
         self.dropper.hide()
         self.score_text.clear()
         self.Highscore_text.clear()
+        self.guild.clear()
+        self.over_text.clear()
+        self.over_text_restart.clear()
+        self.over_text_left.clear()
+        self.over_text_right.clear()
+
+    def run(self, _=None, __=None, ___=None):
+        self.__clear()
+
         self.__start()
         turtle.listen()
         turtle.onkey(self.__space, 'space')
+        turtle.onkey(self.__game_over, 'a')
 
         turtle.done()
+        self.save_data()

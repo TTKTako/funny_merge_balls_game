@@ -4,8 +4,8 @@ from set_up import SetUp
 
 while True:
     username = input("Enter your username: ")
-    if len(username) == 0:
-        print("Username cannot be empty string.")
+    if len(username) <= 0 or len(username) > 12:
+        print("Username cannot be empty string or greater than 12.")
     else:
         ans = input(f"Is this your username '{username}' ? [Y/N]: ").lower().strip()
         fold = ['y', 'ye', '1', 'yes', 'yep', 'right']
