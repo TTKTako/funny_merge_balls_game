@@ -101,6 +101,8 @@ class SetUp(BallsDB):
         else:
             self.score_text.clear()
 
+        turtle.update()
+
     def __ui_ingame(self):
         self.next_ball(self.property[self.random_num])
         self.exit_button.shape("image/exit.gif")
@@ -269,7 +271,7 @@ class SetUp(BallsDB):
         self.__start()
         turtle.listen()
         turtle.onkey(self.__space, 'space')
-        turtle.onkey(self.__game_over, 'a')
+        turtle.onkey(self.__game_over, 'esc')
 
         turtle.done()
         self.save_data()
