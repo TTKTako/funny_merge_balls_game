@@ -1,12 +1,17 @@
+"""This module is very important it's run the game and access to every other module."""
+
+import turtle
+import random
 from data_database import BallsDB
 from run_balls import Balls
 from dropper import Dropper
 from physic import PhysicsCalculate
 from sound_master import Sound
-import turtle
-import random
 
 class SetUp(BallsDB):
+    """
+    this class setup whole game environment
+    """
     def __init__(self, username:str="Guest") -> None:
         super().__init__(username)
         turtle.speed(0)
@@ -182,6 +187,7 @@ class SetUp(BallsDB):
                 break
 
     def __game_over(self):
+        self.save_data()
         self.__clear()
 
         self._game_over = True
@@ -267,6 +273,7 @@ class SetUp(BallsDB):
         turtle.update()
 
     def run(self, _=None, __=None, ___=None):
+        self.save_data()
         self._game_over = False
         self.__start_val = False
         self.__clear()
