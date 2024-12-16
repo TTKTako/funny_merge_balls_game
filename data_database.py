@@ -10,11 +10,9 @@ class BallsDB:
     """
 
     def __init__(self, username:str="Guest") -> None:
-        # only 5 balls in order that can be shoot from balls cannon
-        # every balls will be a emoji
         self.property = [
             { #1
-                "Radius": 8,
+                "Radius": 12,
                 "Color": "#fd9191",
                 "Reward": 500,
             },

@@ -147,6 +147,7 @@ class SetUp(BallsDB):
 
     def __start(self):
         if not self._game_over:
+            self.score_text.clear()
             self.logo.shape("image/logo.gif")
             self.logo.penup()
             self.logo.goto(0,20)
@@ -167,9 +168,14 @@ class SetUp(BallsDB):
         self.__start_val = False
         turtle.update()
 
+    def invince(self, new_ball):
+        for ball in self.ball_db:
+            if new_ball == ball[0]:
+                ball[2] = True
+
     def check_game_over(self):
         for ball in self.ball_db:
-            if ball[0].ycor() + 2*self.property[ball[1]]["Radius"] >= 131:
+            if ball[0].ycor() + 2*self.property[ball[1]]["Radius"] >= 131 and ball[2]:
                 self.__game_over()
                 break
 
@@ -226,14 +232,15 @@ class SetUp(BallsDB):
             self.guild.clear()
             new_ball, state = self.ball_module.generate(random_property=self.random_num, origin=(self.dropper.posx, self.dropper.posy - 20))
             self.ball_db.append([new_ball, state, False])
-            print("Real Score: {}".format(self.score))
-            # self.screen.ontimer(self.check_game_over)
+            self.screen.ontimer(self.check_game_over)
+            self.screen.ontimer(lambda:self.invince(new_ball), 600)
 
         self.random_num = random.randint(0,4)
         self.next_ball(self.property[self.random_num])
 
     def __clear(self):
         turtle.clear()
+        self.score = 0
         self.title.clear()
         self.logo.hideturtle()
         self.exit_button.hideturtle()

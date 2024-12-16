@@ -35,25 +35,31 @@ class PhysicsCalculate:
                 continue
             self.draw(i, x = 0, y = -1)
 
-        turtle.Screen().ontimer(self.drop, 2)
+        turtle.Screen().ontimer(self.drop, 1)
 
     def left_right(self, me, datx):
         """
         This function make balls moveable to left or right.
         """
+        push = math.ceil(self.property[me[1]]["Radius"]*0.95)
         hitbox = me[0].xcor() + 2*self.property[me[1]]["Radius"]
         if me[0].xcor() <= -210 or hitbox >= 210:
-            return
-        if round(abs(datx)) == 0:
+            if me[0].xcor() < -211:
+                self.draw(me, x = push, y = 5)
+            elif hitbox >= 211:
+                self.draw(me, x = -push, y = 5)
+            else:
+                return
+        if abs(datx) == 0:
             side = random.randint(0,1)
             if bool(side):
-                self.draw(me, x = 1, y = 0)
+                self.draw(me, x = 1, y = 1)
             else:
-                self.draw(me, x = -1, y = 0)
+                self.draw(me, x = -1, y = 1)
         elif datx > 0:
-            self.draw(me, x = -1, y = 0)
+            self.draw(me, x = -1, y = 1)
         elif datx < 0:
-            self.draw(me, x = 1, y = 0)
+            self.draw(me, x = 1, y = 1)
 
     def check_collision(self, me):
         """This function check collision."""
@@ -73,10 +79,12 @@ class PhysicsCalculate:
 
     def merge(self, m1, m2):
         """This function merge ball to a new one."""
+        difference_radius = self.property[(m1[1] + 1) % 12]["Radius"]-self.property[(m1[1]) % 12]["Radius"]
         m1[0].clear()
         m2[0].clear()
         self.database.remove(m1)
         self.database.remove(m2)
         self.score.add_score(self.property[(m1[1] + 1) % 12]["Reward"])
-        ball_module
+        new_ball, state = self.ball_module.generate(random_property=(m1[1] + 1) % 12, origin=(m1[0].xcor() - difference_radius, m1[0].ycor() + difference_radius + 2))
+        self.database.append([new_ball, state, False])
         Sound().merge.play()
