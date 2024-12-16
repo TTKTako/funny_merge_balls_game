@@ -24,7 +24,7 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 
 
 ## Demo
--
+- https://youtu.be/AZZqHOkub4E
 
 
 ## How to play?
@@ -52,7 +52,7 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 
 
 ## UML
--
+![UML plan](https://github.com/TTKTako/funny_merge_balls_game/blob/main/project_UML.png)
 
 
 ## Bugs
