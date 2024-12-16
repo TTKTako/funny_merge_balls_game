@@ -1,14 +1,17 @@
 """This module calculate the physics"""
 
-from sound_master import Sound
 import turtle
 import math
 import random
+from sound_master import Sound
 
 class PhysicsCalculate:
-    def __init__(self, balldb: list, property:list, ball_module, score):
+    """
+    for calculate balls physics in x axis and y axis and check is it merge.
+    """
+    def __init__(self, balldb: list, property_list:list, ball_module, score):
         self.database = balldb
-        self.property = property
+        self.property = property_list
         self.ball_module = ball_module
         self.score = score
         self.drop()
@@ -49,7 +52,7 @@ class PhysicsCalculate:
             elif hitbox >= 211:
                 self.draw(me, x = -push, y = 5)
             else:
-                return
+                return None
         if abs(datx) == 0:
             side = random.randint(0,1)
             if bool(side):
@@ -68,8 +71,10 @@ class PhysicsCalculate:
         for i in self.database:
             if i is me:
                 continue
-            datx = (i[0].xcor() + self.property[i[1]]["Radius"]) - (me[0].xcor()  + self.property[me[1]]["Radius"])
-            daty = (i[0].ycor() + self.property[i[1]]["Radius"]) - (me[0].ycor()  + self.property[me[1]]["Radius"])
+            datx = (i[0].xcor() + self.property[i[1]]["Radius"]) - \
+                (me[0].xcor()  + self.property[me[1]]["Radius"])
+            daty = (i[0].ycor() + self.property[i[1]]["Radius"]) - \
+                (me[0].ycor()  + self.property[me[1]]["Radius"])
             distance = math.sqrt(datx**2 + daty**2)
             if distance <= self.property[me[1]]["Radius"] + self.property[i[1]]["Radius"]:
                 self.left_right(me, datx)
@@ -79,12 +84,14 @@ class PhysicsCalculate:
 
     def merge(self, m1, m2):
         """This function merge ball to a new one."""
-        difference_radius = self.property[(m1[1] + 1) % 12]["Radius"]-self.property[(m1[1]) % 12]["Radius"]
+        difference_radius = self.property[(m1[1] + 1) % 12]["Radius"] - \
+            self.property[(m1[1]) % 12]["Radius"]
         m1[0].clear()
         m2[0].clear()
         self.database.remove(m1)
         self.database.remove(m2)
         self.score.add_score(self.property[(m1[1] + 1) % 12]["Reward"])
-        new_ball, state = self.ball_module.generate(random_property=(m1[1] + 1) % 12, origin=(m1[0].xcor() - difference_radius, m1[0].ycor() + difference_radius + 2))
+        new_ball, state = self.ball_module.generate(random_property=(m1[1] + 1) % 12, \
+                                                    origin=(m1[0].xcor() - difference_radius, m1[0].ycor() + difference_radius + 2))
         self.database.append([new_ball, state, False])
         Sound().merge.play()

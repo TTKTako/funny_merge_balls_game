@@ -90,18 +90,17 @@ class SetUp(BallsDB):
         self.dropper.show()
 
     def __update_score(self):
-        self.score_text.clear()
-        self.score_text.penup()
-        self.score_text.hideturtle()
-        self.score_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 40)
-        self.score_text.color("#fffbb5")
-        self.score_text.write(f"Score: {self.score}", align="left", font=("Comic Sans MS", 20, "bold"))
+        self.score_text.reset()
         if not self._game_over and self.__start_val:
+            self.score_text.clear()
+            self.score_text.penup()
+            self.score_text.hideturtle()
+            self.score_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 40)
+            self.score_text.color("#fffbb5")
+            self.score_text.write(f"Score: {self.score}", align="left", font=("Comic Sans MS", 20, "bold"))
             self.screen.ontimer(self.__update_score, 10)
         else:
             self.score_text.clear()
-
-        turtle.update()
 
     def __ui_ingame(self):
         self.next_ball(self.property[self.random_num])
@@ -148,6 +147,7 @@ class SetUp(BallsDB):
         self.show_ball.penup()
 
     def __start(self):
+        self.__clear()
         if not self._game_over:
             self.score_text.clear()
             self.logo.shape("image/logo.gif")
@@ -183,7 +183,6 @@ class SetUp(BallsDB):
 
     def __game_over(self):
         self.__clear()
-        turtle.update()
 
         self._game_over = True
         self.__start_val = False
@@ -223,12 +222,11 @@ class SetUp(BallsDB):
             self.__start_val = True
             self._game_over = False
             self.__clear()
-
             self.__update_score()
+
             Sound().start.play()
             self.__border()
             self.__ui_ingame()
-            turtle.update()
         else:
             Sound().drop.play()
             self.guild.clear()
@@ -239,6 +237,7 @@ class SetUp(BallsDB):
 
         self.random_num = random.randint(0,4)
         self.next_ball(self.property[self.random_num])
+        turtle.update()
 
     def __clear(self):
         turtle.clear()
@@ -249,6 +248,8 @@ class SetUp(BallsDB):
         self.wall.clear()
         self.dropper.hide()
         self.score_text.clear()
+        self.score_text.reset()
+        self.score_text.hideturtle()
         self.Highscore_text.clear()
         self.guild.clear()
         self.over_text.clear()
@@ -266,12 +267,14 @@ class SetUp(BallsDB):
         turtle.update()
 
     def run(self, _=None, __=None, ___=None):
+        self._game_over = False
+        self.__start_val = False
         self.__clear()
 
         self.__start()
         turtle.listen()
         turtle.onkey(self.__space, 'space')
-        turtle.onkey(self.__game_over, 'esc')
+        turtle.onkey(self.__game_over, 'o')
 
         turtle.done()
         self.save_data()
