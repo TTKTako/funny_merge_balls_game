@@ -23,6 +23,7 @@ class SetUp(BallsDB):
         self.screen.addshape("image/exit.gif")
 
         self.screen.title("Funny Merge Balls")
+        self.screen.bgpic("image/bg.gif")
         rootwindow = self.screen.getcanvas().winfo_toplevel()
         rootwindow.call('wm', 'attributes', '.', '-topmost', '1')
         rootwindow.call('wm', 'attributes', '.', '-topmost', '0')
@@ -34,7 +35,7 @@ class SetUp(BallsDB):
         self.random_num = random.randint(0,4)
         self.dropper = Dropper(self.canvas_height, self.canvas_width)
         self.ball_module = Balls(self.canvas_width, self.canvas_height, self.property, self.ball_db)
-        self.physic = PhysicsCalculate(self.ball_db, self.property)
+        self.physic = PhysicsCalculate(self.ball_db, self.property, self.ball_module, super())
         self.wall = turtle.Turtle()
         self.title = turtle.Turtle()
         self.logo = turtle.Turtle()
@@ -88,6 +89,18 @@ class SetUp(BallsDB):
         self.wall.hideturtle()
         self.dropper.show()
 
+    def __update_score(self):
+        self.score_text.clear()
+        self.score_text.penup()
+        self.score_text.hideturtle()
+        self.score_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 40)
+        self.score_text.color("#fffbb5")
+        self.score_text.write(f"Score: {self.score}", align="left", font=("Comic Sans MS", 20, "bold"))
+        if not self._game_over and self.__start_val:
+            self.screen.ontimer(self.__update_score, 10)
+        else:
+            self.score_text.clear()
+
     def __ui_ingame(self):
         self.next_ball(self.property[self.random_num])
         self.exit_button.shape("image/exit.gif")
@@ -98,13 +111,13 @@ class SetUp(BallsDB):
         self.score_text.penup()
         self.score_text.hideturtle()
         self.score_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 40)
-        self.score_text.color("#863f1f")
-        self.score_text.write(f"Score: {self._score}", align="left", font=("Comic Sans MS", 20, "bold"))
+        self.score_text.color("#fffbb5")
+        self.score_text.write(f"Score: {self.score}", align="left", font=("Comic Sans MS", 20, "bold"))
 
         self.Highscore_text.penup()
         self.Highscore_text.hideturtle()
         self.Highscore_text.goto((-self.canvas_width/2) + 20, (self.canvas_height/2) - 70)
-        self.Highscore_text.color("#72381e")
+        self.Highscore_text.color("#ffffff")
         self.Highscore_text.write(f"Highscore: {self.highscore}", align="left", font=("Comic Sans MS", 15, "bold"))
         self.Highscore_text.goto((-self.canvas_width/2) + 20, -(self.canvas_height/2) + 20)
         self.Highscore_text.write(f"Player: {self.username}", align="left", font=("Comic Sans MS", 15, "bold"))
@@ -112,7 +125,7 @@ class SetUp(BallsDB):
         self.Highscore_text.write(f"Next ball: ", align="left", font=("Comic Sans MS", 15, "bold"))
 
         self.guild.penup()
-        self.guild.goto(0, -120)
+        self.guild.goto(0, -130)
         self.guild.color("#000000")
         self.guild.write("Press 'space' to drop ball!", align="center", font=("Comic Sans MS", 14, "bold"))
 
@@ -143,16 +156,22 @@ class SetUp(BallsDB):
             self.title.hideturtle()
             self.title.penup()
             self.title.goto(0, (self.canvas_height/2) - 120)
-            self.title.color("#3b58fb")
+            self.title.color("#ffffff")
             self.title.write("Funny Merge Balls", align="center", font=("Comic Sans MS", 35, "bold"))
             self.title.goto(0, (-self.canvas_height/2) + 120)
-            self.title.color("#fbaa3b")
+            self.title.color("#ffffff")
             self.title.write("Press 'space' to start!", align="center", font=("Comic Sans MS", 14, "bold"))
 
         self._score = 0
         self._game_over = False
         self.__start_val = False
         turtle.update()
+
+    def check_game_over(self):
+        for ball in self.ball_db:
+            if ball[0].ycor() + 2*self.property[ball[1]]["Radius"] >= 131:
+                self.__game_over()
+                break
 
     def __game_over(self):
         self.__clear()
@@ -166,24 +185,26 @@ class SetUp(BallsDB):
         Sound().gameover.play()
         self.over_text.penup()
         self.over_text.goto(0,(self.canvas_height*0.325) - 30)
-        self.over_text.color("#ce0000")
+        self.over_text.color("#ff3030")
         self.over_text.write("GAMEOVER!!", align="center", font=("Comic Sans MS", 52, "bold"))
         self.over_text_left.penup()
         self.over_text_right.penup()
         self.over_text_restart.penup()
         self.over_text_restart.goto(0, (-self.canvas_height/2) + 150)
-        self.over_text_restart.color("#fbaa3b")
+        self.over_text_restart.color("#ffffff")
         self.over_text_restart.write("Press 'space' to restart!", align="center", font=("Comic Sans MS", 14, "bold"))
         self.over_text_left.goto(-(self.canvas_width/2) + 90, self.over_text.ycor() - 50)
         self.over_text_right.goto((self.canvas_width/2) - 90, self.over_text.ycor() - 50)
-        self.over_text_right.color("#000000")
+        self.over_text_right.color("#ffffff")
         for data in order_list:
             data_name = data[0]
             data_score = data[1]
             if data[0] == self.username:
-                self.over_text_left.color("#ce7100")
+                self.over_text_left.color("#ff8c00")
+                self.over_text_right.color("#ff8c00")
             else:
-                self.over_text_left.color("#000000")
+                self.over_text_left.color("#ffffff")
+                self.over_text_right.color("#ffffff")
             self.over_text_left.goto(self.over_text_left.xcor(), self.over_text_left.ycor() - 25)
             self.over_text_right.goto(self.over_text_right.xcor(), self.over_text_right.ycor() - 25)
             self.over_text_left.write(f"({order_list.index(data) + 1}) {data_name}", align="left", font=("Comic Sans MS", 15, "bold"))
@@ -195,6 +216,7 @@ class SetUp(BallsDB):
             self._game_over = False
             self.__clear()
 
+            self.__update_score()
             Sound().start.play()
             self.__border()
             self.__ui_ingame()
@@ -203,7 +225,10 @@ class SetUp(BallsDB):
             Sound().drop.play()
             self.guild.clear()
             new_ball, state = self.ball_module.generate(random_property=self.random_num, origin=(self.dropper.posx, self.dropper.posy - 20))
-            self.ball_db.append([new_ball, state])
+            self.ball_db.append([new_ball, state, False])
+            print("Real Score: {}".format(self.score))
+            # self.screen.ontimer(self.check_game_over)
+
         self.random_num = random.randint(0,4)
         self.next_ball(self.property[self.random_num])
 

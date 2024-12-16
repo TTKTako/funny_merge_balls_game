@@ -14,82 +14,70 @@ class BallsDB:
         # every balls will be a emoji
         self.property = [
             { #1
-                "Radius": 10,
+                "Radius": 8,
                 "Color": "#fd9191",
-                "Image": "/image/",
                 "Reward": 500,
             },
             { #2
-                "Radius": 12,
+                "Radius": 15,
                 "Color": "#9b9b9b",
-                "Image": "/image/",
                 "Reward": 15,
             },
             { #3
-                "Radius": 14,
+                "Radius": 20,
                 "Color": "#cd69d4",
-                "Image": "/image/",
                 "Reward": 23,
             },
             { #4
-                "Radius": 17,
+                "Radius": 25,
                 "Color": "#69d4b0",
-                "Image": "/image/",
                 "Reward": 36,
             },
             { #5
-                "Radius": 19,
+                "Radius": 32,
                 "Color": "#658eb5",
-                "Image": "/image/",
                 "Reward": 41,
             },
             { #6
-                "Radius": 23,
+                "Radius": 38,
                 "Color": "#65b569",
-                "Image": "/image/",
                 "Reward": 50,
             },
             { #7
-                "Radius": 27,
+                "Radius": 45,
                 "Color": "#cfd131",
-                "Image": "/image/",
                 "Reward": 63,
             },
             { #8
-                "Radius": 32,
+                "Radius": 52,
                 "Color": "#d16431",
-                "Image": "/image/",
                 "Reward": 75,
             },
             { #9
-                "Radius": 36,
+                "Radius": 62,
                 "Color": "#d0f77e",
-                "Image": "/image/",
                 "Reward": 90,
             },
             { #10
-                "Radius": 42,
-                "Color": "#d0f77e",
-                "Image": "/image/",
+                "Radius": 70,
+                "Color": "#bdb855",
                 "Reward": 115,
             },
             { #11
-                "Radius": 48,
+                "Radius": 75,
                 "Color": "#272e5d",
-                "Image": "/image/",
                 "Reward": 155,
             },
             { #12
-                "Radius": 58,
+                "Radius": 90,
                 "Color": "#0e1021",
-                "Image": "/image/",
                 "Reward": 220,
             },
         ]
 
         self.ball_db = []
         self.username = username
-        self._score = 0
+        self.__score = 0
         self.__file = "datafile.csv"
         self._past_highscore = self.__get_data()
 
@@ -108,7 +96,7 @@ class BallsDB:
         """
         check = bool(self.__get_data())
         if check:
-            if self._score > int(self.highscore):
+            if self.__score > int(self.highscore):
                 rows = []
                 with open(self.__file, mode="r", newline="", encoding='utf-8') as file:
                     reader = csv.reader(file)
@@ -117,14 +105,14 @@ class BallsDB:
 
                     for row in reader:
                         if row[0] == self.username:
-                            row[1] = str(self._score)
+                            row[1] = str(self.__score)
                         rows.append(row)
 
                 with open(self.__file, mode="w", newline="", encoding='utf-8') as file:
                     writer = csv.writer(file)
                     writer.writerows(rows)
         else:
-            new_row = [self.username, self._score]
+            new_row = [self.username, self.__score]
             with open(self.__file, mode="a", newline="", encoding='utf-8') as file:
                 writer = csv.writer(file)
                 writer.writerow(new_row)
@@ -148,3 +136,24 @@ class BallsDB:
         """
         self._past_highscore = self.__get_data()
         return self._past_highscore
+
+    @property
+    def score(self):
+        """
+        return score value
+        """
+        return self.__score
+
+    @score.setter
+    def score(self, val:int):
+        """
+        input value into score
+        data need to be int only.
+        """
+        self.__score = val
+
+    def add_score(self, val:int = 0):
+        """
+        add score value.
+        """
+        self.__score += val
