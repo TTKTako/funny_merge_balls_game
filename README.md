@@ -2,6 +2,7 @@
 > **Genre**: Puzzle\
 > **description**: Drop those colorful balls and watch them merge to be the bigger one, but beware of overfilling the ball!
 
+<br>
 
 ## How to install?
 
@@ -22,10 +23,12 @@ pip install PythonTurtle pandas pygame
 git clone https://github.com/TTKTako/funny_merge_balls_game.git
 ```
 
+<br>
 
-## Demo
+## Demo & Tutorial
 - https://youtu.be/AZZqHOkub4E
 
+<br>
 
 ## How to play?
 
@@ -41,6 +44,7 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 **Fourth Step**:
 - Have fun with a game. :>
 
+<br>
 
 ## Feature methods
 
@@ -48,17 +52,26 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 - use **csv** to read and write file.
 
 **Display scoreboard**:
-- use **Pandas** to get top 10 and display in order.
+- use **Pandas** to get top 5 and display in order.
 
+**Display game**:
+- use **turtle** to generate UIs and gameplay.
+
+**Playsound**:
+- use **pygame** to access sound path and play it.
+
+<br>
 
 ## UML
 ![UML plan](https://github.com/TTKTako/funny_merge_balls_game/blob/main/project_UML.png)
 
+<br>
 
 ## Bugs
-- **Lag**: This happened from the physics module because the script will repeatedly calculate so the ball will be dynamic to move to the left, right, or merge.
-- **Collision**: Sometimes balls will stack over and over. This happened from the hitbox that calculates from the turtle position and radius. Since the amount of time that I have is not enough to fix.
+- **Lag**: This happened from the physics module because the script will repeatedly calculate so the ball will be dynamic to move to the left, right, or merge. [Test by spam dropping balls.]
+- **Collision**: Sometimes balls will stack over and over. This happened from the hitbox that calculates from the turtle position and radius. Since the amount of time that I have is not enough to fix. [test by normally playing.]
 
+<br>
 
 ## Coding detail & Prefer score
 **Code**:
@@ -88,7 +101,7 @@ turtle.Screen().ontimer(func(), 100)
 **Prefer Score**:
 - My preferred score is <font color="#fab727">**100**</font> because I need to rewrite and calculate all new physics systems and adapt a number of features from the base code to be more efficient and stable.
 
-
+<br>
 ---
 
 
