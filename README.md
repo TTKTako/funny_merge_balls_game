@@ -36,7 +36,7 @@ git clone https://github.com/TTKTako/funny_merge_balls_game.git
 - Enter your <font color="#fb683b">username</font> in terminal for <font color="#fe8e8e">saving</font> your high score data and click '<font color="#fab727">Start</font>'.
 
 **Third Step**:
-- press <font color="#fb683b">spacebar</font> on your keyboard to drop balls.
+- press <font color="#fb683b">spacebar</font> on your keyboard to drop balls. Merge the same ball to get the score and bigger ball.
 
 **Fourth Step**:
 - Have fun with a game. :>
