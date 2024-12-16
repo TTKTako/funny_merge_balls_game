@@ -14,73 +14,73 @@ class BallsDB:
         # every balls will be a emoji
         self.property = [
             { #1
-                "Radius": 5,
+                "Radius": 10,
                 "Color": "#fd9191",
                 "Image": "/image/",
                 "Reward": 500,
             },
             { #2
-                "Radius": 8,
+                "Radius": 12,
                 "Color": "#9b9b9b",
                 "Image": "/image/",
                 "Reward": 15,
             },
             { #3
-                "Radius": 10,
+                "Radius": 14,
                 "Color": "#cd69d4",
                 "Image": "/image/",
                 "Reward": 23,
             },
             { #4
-                "Radius": 12,
+                "Radius": 17,
                 "Color": "#69d4b0",
                 "Image": "/image/",
                 "Reward": 36,
             },
             { #5
-                "Radius": 15,
+                "Radius": 19,
                 "Color": "#658eb5",
                 "Image": "/image/",
                 "Reward": 41,
             },
             { #6
-                "Radius": 20,
+                "Radius": 23,
                 "Color": "#65b569",
                 "Image": "/image/",
                 "Reward": 50,
             },
             { #7
-                "Radius": 24,
+                "Radius": 27,
                 "Color": "#cfd131",
                 "Image": "/image/",
                 "Reward": 63,
             },
             { #8
-                "Radius": 29,
+                "Radius": 32,
                 "Color": "#d16431",
                 "Image": "/image/",
                 "Reward": 75,
             },
             { #9
-                "Radius": 33,
+                "Radius": 36,
                 "Color": "#d0f77e",
                 "Image": "/image/",
                 "Reward": 90,
             },
             { #10
-                "Radius": 39,
+                "Radius": 42,
                 "Color": "#d0f77e",
                 "Image": "/image/",
                 "Reward": 115,
             },
             { #11
-                "Radius": 45,
+                "Radius": 48,
                 "Color": "#272e5d",
                 "Image": "/image/",
                 "Reward": 155,
             },
             { #12
-                "Radius": 55,
+                "Radius": 58,
                 "Color": "#0e1021",
                 "Image": "/image/",
                 "Reward": 220,
@@ -137,7 +137,7 @@ class BallsDB:
         top = file.nlargest(val, 'Score')
         top_list = top[['Name', 'Score']].values.tolist()
         if len(top_list) - val != 0:
-            for i in range(val - len(top_list)):
+            for _ in range(val - len(top_list)):
                 top_list.append(["------", "---"])
         return top_list
 

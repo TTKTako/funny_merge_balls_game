@@ -1,6 +1,7 @@
 from data_database import BallsDB
-from physic import PhysicsCalculate
+from run_balls import Balls
 from dropper import Dropper
+from physic import PhysicsCalculate
 from sound_master import Sound
 import turtle
 import random
@@ -30,7 +31,10 @@ class SetUp(BallsDB):
         self._game_over = False
         self.__start_val = False
 
+        self.random_num = random.randint(0,4)
         self.dropper = Dropper(self.canvas_height, self.canvas_width)
+        self.ball_module = Balls(self.canvas_width, self.canvas_height, self.property, self.ball_db)
+        self.physic = PhysicsCalculate(self.ball_db, self.property)
         self.wall = turtle.Turtle()
         self.title = turtle.Turtle()
         self.logo = turtle.Turtle()
@@ -42,6 +46,7 @@ class SetUp(BallsDB):
         self.over_text_left = turtle.Turtle()
         self.over_text_right = turtle.Turtle()
         self.over_text_restart = turtle.Turtle()
+        self.show_ball = turtle.Turtle()
 
         self.dropper.hide()
         self.wall.hideturtle()
@@ -55,6 +60,8 @@ class SetUp(BallsDB):
         self.over_text_left.hideturtle()
         self.over_text_right.hideturtle()
         self.over_text_restart.hideturtle()
+        self.show_ball.clear()
+        self.show_ball.hideturtle()
 
     def __border(self):
         self.wall.penup()
@@ -82,6 +89,7 @@ class SetUp(BallsDB):
         self.dropper.show()
 
     def __ui_ingame(self):
+        self.next_ball(self.property[self.random_num])
         self.exit_button.shape("image/exit.gif")
         self.exit_button.showturtle()
         self.exit_button.penup()
@@ -100,6 +108,8 @@ class SetUp(BallsDB):
         self.Highscore_text.write(f"Highscore: {self.highscore}", align="left", font=("Comic Sans MS", 15, "bold"))
         self.Highscore_text.goto((-self.canvas_width/2) + 20, -(self.canvas_height/2) + 20)
         self.Highscore_text.write(f"Player: {self.username}", align="left", font=("Comic Sans MS", 15, "bold"))
+        self.Highscore_text.goto((self.canvas_width/2) - 110, (self.canvas_height/2) - 30)
+        self.Highscore_text.write(f"Next ball: ", align="left", font=("Comic Sans MS", 15, "bold"))
 
         self.guild.penup()
         self.guild.goto(0, -120)
@@ -108,6 +118,19 @@ class SetUp(BallsDB):
 
         self.exit_button.onclick(self.run)
         self.dropper.left_right()
+
+    def next_ball(self, info):
+        self.show_ball.penup()
+        self.show_ball.clear()
+        self.show_ball.goto((self.canvas_width/2) - 35, (self.canvas_height/2) - 60)
+        self.show_ball.hideturtle()
+        self.show_ball.pendown()
+        self.show_ball.color(info["Color"])
+        self.show_ball.fillcolor(info["Color"])
+        self.show_ball.begin_fill()
+        self.show_ball.circle(12)
+        self.show_ball.end_fill()
+        self.show_ball.penup()
 
     def __start(self):
         if not self._game_over:
@@ -170,7 +193,6 @@ class SetUp(BallsDB):
         if not self.__start_val:
             self.__start_val = True
             self._game_over = False
-
             self.__clear()
 
             Sound().start.play()
@@ -180,7 +202,10 @@ class SetUp(BallsDB):
         else:
             Sound().drop.play()
             self.guild.clear()
-            print(f"drop, {self.dropper.posx}")
+            new_ball, state = self.ball_module.generate(random_property=self.random_num, origin=(self.dropper.posx, self.dropper.posy - 20))
+            self.ball_db.append([new_ball, state])
+        self.random_num = random.randint(0,4)
+        self.next_ball(self.property[self.random_num])
 
     def __clear(self):
         turtle.clear()
@@ -196,6 +221,15 @@ class SetUp(BallsDB):
         self.over_text_restart.clear()
         self.over_text_left.clear()
         self.over_text_right.clear()
+        self.show_ball.clear()
+        self.show_ball.hideturtle()
+
+        while len(self.ball_db) != 0:
+            for val in self.ball_db:
+                val[0].clear()
+                self.ball_db.remove(val)
+
+        turtle.update()
 
     def run(self, _=None, __=None, ___=None):
         self.__clear()
