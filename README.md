@@ -81,6 +81,9 @@ import turtle
 turtle.Screen().ontimer(func(), 100)
 ```
 
+**Prefer Score**:
+- My preferred score is <font color="#fab727">**100**</font> because I need to rewrite and calculate all new physics systems and adapt a number of features from the base code to be more efficient and stable.
+
 
 ---
 
