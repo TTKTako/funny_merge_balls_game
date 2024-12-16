@@ -6,9 +6,9 @@ class Balls:
     """
     config balls for physics and gameplay.
     """
-    def __init__(self, weigth:int, height:int, preset, database):
+    def __init__(self, width:int, height:int, preset, database):
         self.ball = None
-        self.weigth = weigth
+        self.width = width
         self.height = height
         self.property = preset
         self.ball_db = database
